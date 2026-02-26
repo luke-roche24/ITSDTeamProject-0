@@ -50,12 +50,12 @@ public class CommandDemo {
 		// -------------------------------------------------------
 
 		//BoardDemo
-		//BasicCommands.addPlayer1Notification(out, "FullBoard", 2);
-		//Board board = new Board();
-		//HashMap<Coord, Tile> tiles = board.getTiles();
-		//for (Tile tile : tiles.values()){
-		//	BasicCommands.drawTile(out, tile, 0);
-		//}
+		BasicCommands.addPlayer1Notification(out, "FullBoard", 2);
+		Board board = new Board();
+		HashMap<Coord, Tile> tiles = board.getTiles();
+		for (Tile tile : tiles.values()){
+			BasicCommands.drawTile(out, tile, 0);
+		}
 
 		// drawTile
 		BasicCommands.addPlayer1Notification(out, "drawTile[3,2]", 2);
