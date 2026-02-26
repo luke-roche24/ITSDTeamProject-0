@@ -11,6 +11,12 @@ import structures.basic.UnitAnimationType;
 import utils.BasicObjectBuilders;
 import utils.OrderedCardLoader;
 import utils.StaticConfFiles;
+import demo.BoardDemo;
+import structures.basic.Board;
+import structures.basic.Coord;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * This class contains an illustration of calling all of the commands provided
@@ -42,7 +48,15 @@ public class CommandDemo {
 		//--------------------------------------------------------
 		// Basic Draw Commands
 		// -------------------------------------------------------
-		
+
+		//BoardDemo
+		BasicCommands.addPlayer1Notification(out, "FullBoard", 2);
+		Board board = new Board();
+		HashMap<Coord, Tile> tiles = board.getTiles();
+		for (Tile tile : tiles.values()){
+			BasicCommands.drawTile(out, tile, 0);
+		}
+
 		// drawTile
 		BasicCommands.addPlayer1Notification(out, "drawTile[3,2]", 2);
 		Tile tile = BasicObjectBuilders.loadTile(3, 2);
