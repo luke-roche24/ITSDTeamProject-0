@@ -12,6 +12,6 @@ public class GameState {
 	
 	public boolean gameInitalised = false;
 	
-	public boolean something = false;
+	public boolean something = true;
 	
 }

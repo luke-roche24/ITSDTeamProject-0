@@ -4,6 +4,7 @@ package events;
 import com.fasterxml.jackson.databind.JsonNode;
 
 import akka.actor.ActorRef;
+import commands.BasicCommands;
 import structures.GameState;
 
 /**
@@ -30,6 +31,7 @@ public class TileClicked implements EventProcessor{
 		
 		if (gameState.something == true) {
 			// do some logic
+			BasicCommands.addPlayer1Notification(out, "you clicked (" + (tiley+1) + ", " + (tilex+1) + ")", 2);
 		}
 		
 	}
