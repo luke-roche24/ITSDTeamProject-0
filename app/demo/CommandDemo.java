@@ -49,13 +49,6 @@ public class CommandDemo {
 		// Basic Draw Commands
 		// -------------------------------------------------------
 
-		//BoardDemo
-		BasicCommands.addPlayer1Notification(out, "FullBoard", 2);
-		Board board = new Board();
-		HashMap<Coord, Tile> tiles = board.getTiles();
-		for (Tile tile : tiles.values()){
-			BasicCommands.drawTile(out, tile, 0);
-		}
 
 		// drawTile
 		BasicCommands.addPlayer1Notification(out, "drawTile[3,2]", 2);
@@ -65,19 +58,19 @@ public class CommandDemo {
 		
 		// drawUnit
 		BasicCommands.addPlayer1Notification(out, "drawUnit", 2);
-		Unit unit = BasicObjectBuilders.loadUnit(StaticConfFiles.humanAvatar, 0, Unit.class);
-		unit.setPositionByTile(tile); 
-		BasicCommands.drawUnit(out, unit, tile);
+		Unit humanAvatar = BasicObjectBuilders.loadUnit(StaticConfFiles.humanAvatar, 0, Unit.class);
+		humanAvatar.setPositionByTile(tile);
+		BasicCommands.drawUnit(out, humanAvatar, tile);
 		try {Thread.sleep(2000);} catch (InterruptedException e) {e.printStackTrace();}
 
 		// setUnitAttack
 		BasicCommands.addPlayer1Notification(out, "setUnitAttack", 2);
-		BasicCommands.setUnitAttack(out, unit, 2);
+		BasicCommands.setUnitAttack(out, humanAvatar, 2);
 		try {Thread.sleep(2000);} catch (InterruptedException e) {e.printStackTrace();}
 
 		// setUnitHealth
 		BasicCommands.addPlayer1Notification(out, "setUnitHealth", 2);
-		BasicCommands.setUnitHealth(out, unit, 2);
+		BasicCommands.setUnitHealth(out, humanAvatar, 2);
 		try {Thread.sleep(2000);} catch (InterruptedException e) {e.printStackTrace();}
 
 		
@@ -87,17 +80,17 @@ public class CommandDemo {
 		
 		// playUnitAnimation [Move]
 		BasicCommands.addPlayer1Notification(out, "playUnitAnimation [Move]", 2);
-		BasicCommands.playUnitAnimation(out, unit, UnitAnimationType.move);
+		BasicCommands.playUnitAnimation(out, humanAvatar, UnitAnimationType.move);
 		try {Thread.sleep(2000);} catch (InterruptedException e) {e.printStackTrace();}
 
 		// playUnitAnimation [Attack]
 		BasicCommands.addPlayer1Notification(out, "playUnitAnimation [Attack]", 2);
-		BasicCommands.playUnitAnimation(out, unit, UnitAnimationType.attack);
+		BasicCommands.playUnitAnimation(out, humanAvatar, UnitAnimationType.attack);
 		try {Thread.sleep(2000);} catch (InterruptedException e) {e.printStackTrace();}
 
 		// playUnitAnimation [Death]
 		BasicCommands.addPlayer1Notification(out, "playUnitAnimation [Death]", 3);
-		BasicCommands.playUnitAnimation(out, unit, UnitAnimationType.death);
+		BasicCommands.playUnitAnimation(out, humanAvatar, UnitAnimationType.death);
 		try {Thread.sleep(3000);} catch (InterruptedException e) {e.printStackTrace();}
 
 		
@@ -107,7 +100,7 @@ public class CommandDemo {
 		
 		// deleteUnit
 		BasicCommands.addPlayer1Notification(out, "deleteUnit", 2);
-		BasicCommands.deleteUnit(out, unit);
+		BasicCommands.deleteUnit(out, humanAvatar);
 		try {Thread.sleep(2000);} catch (InterruptedException e) {e.printStackTrace();}
 
 

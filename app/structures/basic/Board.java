@@ -11,21 +11,21 @@ import utils.BasicObjectBuilders;
 import java.util.HashMap;
 
 public class Board {
-    private HashMap<Coord, Tile > tiles = createBoard(9,5);
+    private Tile[][] tiles = createBoard(5,9);
 
-    public static HashMap<Coord, Tile> createBoard(int rows, int cols){
-        HashMap<Coord, Tile > tiles = new HashMap<Coord, Tile>();
-        for (int r = 0; r < rows; r++) {
-            for (int c = 0; c < cols; c++) {
-                Tile tile = BasicObjectBuilders.loadTile(r, c);
-                Coord coord = new Coord(r, c);
-                tiles.put(coord, tile);
+    public static Tile[][] createBoard(int rows, int cols){
+        //HashMap<Coord, Tile > tiles = new HashMap<Coord, Tile>();
+        Tile[][] tiles = new Tile[5][9];
+        for (int c = 0; c < cols; c++) {
+            for (int r = 0; r < rows; r++) {
+                Tile tile = BasicObjectBuilders.loadTile(c, r);
+                tiles[r][c] = tile;
             }
         }
         return tiles;
     }
 
-    public HashMap<Coord, Tile> getTiles(){
+    public Tile[][] getTiles(){
         return tiles;
     }
 }

@@ -14,7 +14,7 @@ import utils.StaticConfFiles;
 import demo.BoardDemo;
 import structures.basic.Board;
 import structures.basic.Coord;
-
+import commands.GameSetup;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -22,21 +22,30 @@ public class GameEngine {
 
     public static void startGame(ActorRef out) {
 
-        // This can definitely be made into a basic command
-        Board board = new Board();
-        HashMap<Coord, Tile> tiles = board.getTiles();
-        for (Tile tile : tiles.values()){
-            BasicCommands.drawTile(out, tile, 0);
-        }
-
-        // Set player 1 health
-        Player humanPlayer = new Player(20, 0);
-        BasicCommands.setPlayer1Health(out, humanPlayer);
+        // Draws the board
+        Board board = GameSetup.drawBoard(out);
+        Tile[][] tiles = board.getTiles();
         try {Thread.sleep(2000);} catch (InterruptedException e) {e.printStackTrace();}
 
-        // Set player 2 health
+
+        // Set players health
+        Player humanPlayer = new Player(20, 0);
+        BasicCommands.setPlayer1Health(out, humanPlayer);
         Player aiPlayer = new Player(20, 0);
         BasicCommands.setPlayer2Health(out, aiPlayer);
         try {Thread.sleep(2000);} catch (InterruptedException e) {e.printStackTrace();}
+
+        // Place avatar units
+        Unit humanAvatar = BasicObjectBuilders.loadUnit(StaticConfFiles.humanAvatar, 0, Unit.class);
+        Unit aiAvatar = BasicObjectBuilders.loadUnit(StaticConfFiles.aiAvatar, 1, Unit.class);
+        GameSetup.placeAvatar(out, humanAvatar, board, 3, 2);
+        GameSetup.placeAvatar(out, aiAvatar, board, 3, 8);
+        try {Thread.sleep(2000);} catch (InterruptedException e) {e.printStackTrace();}
+
+
+        BasicCommands.setUnitHealth(out, humanAvatar, humanPlayer.getHealth());
+        BasicCommands.setUnitHealth(out, aiAvatar, aiPlayer.getHealth());
+        try {Thread.sleep(2000);} catch (InterruptedException e) {e.printStackTrace();}
+
     }
 }
