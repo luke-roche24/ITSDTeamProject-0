@@ -24,15 +24,12 @@ public class Initalize implements EventProcessor{
 	@Override
 	public void processEvent(ActorRef out, GameState gameState, JsonNode message) {
 		// hello this is a change
-		
-		gameState.gameInitalised = true;
-		
 		gameState.something = true;
 		
 		// User 1 makes a change
 		//CommandDemo.executeDemo(out); // this executes the command demo, comment out this when implementing your solution
 		//Loaders_2024_Check.test(out);
-		GameEngine.startGame(out);
+		GameEngine.startGame(out,gameState);
 	}
 
 }
