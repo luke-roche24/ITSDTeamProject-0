@@ -36,19 +36,37 @@ public class TileClicked implements EventProcessor {
 		Unit humanAvatar = gameState.humanAvatar;
 		Unit aiAvatar = gameState.aiAvatar;
 
-		// Check whether the clicked tile contains the human player's unit
-		// 判断被点击的格子是否包含玩家单位
 		if (isUnitOnTile(humanAvatar, tilex, tiley)) {
-			gameState.selectedUnit = humanAvatar;
-			BasicCommands.addPlayer1Notification(
-					out,
-					"You selected your unit at (" + tilex + ", " + tiley + ")",
-					2
-			);
 
+			// If the same unit is already selected, deselect it
+			// 如果该单位已经被选中，再点击一次则取消选中
+			if (gameState.selectedUnit == humanAvatar) {
+
+				gameState.selectedUnit = null;
+
+				BasicCommands.addPlayer1Notification(
+						out,
+						"Unit deselected",
+						2
+				);
+
+			} else {
+
+				// Otherwise, the tile is empty
+				// 否则说明该格子为空
+				gameState.selectedUnit = null;
+
+				BasicCommands.addPlayer1Notification(
+						out,
+						"You clicked an empty tile at (" + tilex + ", " + tiley + ")",
+						2
+				);
+			}
+
+		}
 			// Check whether the clicked tile contains the enemy unit
 			// 判断被点击的格子是否包含敌方单位
-		} else if (isUnitOnTile(aiAvatar, tilex, tiley)) {
+		 else if (isUnitOnTile(aiAvatar, tilex, tiley)) {
 			BasicCommands.addPlayer1Notification(
 					out,
 					"You clicked the enemy unit at (" + tilex + ", " + tiley + ")",
@@ -62,6 +80,7 @@ public class TileClicked implements EventProcessor {
 					out,
 					"You clicked an empty tile at (" + tilex + ", " + tiley + ")",
 					2
+
 			);
 		}
 	}
