@@ -41,7 +41,7 @@ public class TileClicked implements EventProcessor {
 			// If the same unit is already selected, deselect it
 			// 如果该单位已经被选中，再点击一次则取消选中
 			if (gameState.selectedUnit == humanAvatar) {
-
+				clearAdjacentHighlights(out, gameState, humanAvatar);
 				gameState.selectedUnit = null;
 
 				BasicCommands.addPlayer1Notification(
@@ -94,7 +94,7 @@ public class TileClicked implements EventProcessor {
 				if ((dx == 1 && dy == 0) || (dx == 0 && dy == 1)) {
 
 					Tile targetTile = gameState.board.getTiles()[tiley][tilex];
-
+					clearAdjacentHighlights(out, gameState, gameState.selectedUnit);
 					BasicCommands.moveUnitToTile(out, gameState.selectedUnit, targetTile);
 					gameState.selectedUnit.setPositionByTile(targetTile);
 
@@ -180,4 +180,31 @@ public class TileClicked implements EventProcessor {
 			BasicCommands.drawTile(out, tiles[currentY][currentX + 1], 1);
 		}
 	}
+	private void clearAdjacentHighlights(ActorRef out, GameState gameState, Unit unit) {
+
+		int currentX = unit.getPosition().getTilex();
+		int currentY = unit.getPosition().getTiley();
+
+		Tile[][] tiles = gameState.board.getTiles();
+
+		// Up
+			if (currentY - 1 >= 0) {
+				BasicCommands.drawTile(out, tiles[currentY - 1][currentX], 0);
+			}
+
+			// Down
+			if (currentY + 1 < tiles.length) {
+				BasicCommands.drawTile(out, tiles[currentY + 1][currentX], 0);
+			}
+
+			// Left
+			if (currentX - 1 >= 0) {
+				BasicCommands.drawTile(out, tiles[currentY][currentX - 1], 0);
+			}
+
+			// Right
+			if (currentX + 1 < tiles[0].length) {
+				BasicCommands.drawTile(out, tiles[currentY][currentX + 1], 0);
+			}
+		}
 }
