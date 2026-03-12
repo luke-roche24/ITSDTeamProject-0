@@ -10,6 +10,7 @@ package structures;
 
 import structures.basic.Board;
 import structures.basic.Unit;
+import structures.basic.Player;
 
 /**
  * GameState stores the global state of the game.
@@ -40,4 +41,12 @@ public class GameState {
 	// The unit currently selected by the player
 	// 当前被玩家选中的单位
 	public Unit selectedUnit;
+
+	// The human player object
+    // 玩家对象
+	public Player humanPlayer;
+
+	// The AI player object
+    // AI玩家对象
+	public Player aiPlayer;
 }

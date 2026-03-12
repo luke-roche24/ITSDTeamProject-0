@@ -37,6 +37,8 @@ class GameEngine {
         BasicCommands.setPlayer1Health(out, humanPlayer);
         Player aiPlayer = new Player(20, 0);
         BasicCommands.setPlayer2Health(out, aiPlayer);
+        gameState.humanPlayer = humanPlayer;
+        gameState.aiPlayer = aiPlayer;
         try {Thread.sleep(2000);} catch (InterruptedException e) {e.printStackTrace();}
 
         // Place avatar units

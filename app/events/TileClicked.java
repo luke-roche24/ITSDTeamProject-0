@@ -6,6 +6,8 @@ import commands.BasicCommands;
 import structures.GameState;
 import structures.basic.Unit;
 import structures.basic.Tile;
+import structures.basic.UnitAnimationType;
+
 /**
  * Handles tile click events on the game board.
  * 处理游戏棋盘上的格子点击事件。
@@ -69,13 +71,72 @@ public class TileClicked implements EventProcessor {
 
 		} else if (isUnitOnTile(aiAvatar, tilex, tiley)) {
 
-			// Check whether the clicked tile contains the enemy unit
-			// 判断被点击的格子是否包含敌方单位
-			BasicCommands.addPlayer1Notification(
-					out,
-					"You clicked the enemy unit at (" + tilex + ", " + tiley + ")",
-					2
-			);
+			// If a unit is selected, check whether the enemy is adjacent
+			// 如果当前已经选中了一个单位，则检查敌人是否相邻
+			if (gameState.selectedUnit != null) {
+
+				int currentX = gameState.selectedUnit.getPosition().getTilex();
+				int currentY = gameState.selectedUnit.getPosition().getTiley();
+
+				int dx = Math.abs(currentX - tilex);
+				int dy = Math.abs(currentY - tiley);
+
+				// Only allow attack on adjacent enemy
+				// 只允许攻击相邻的敌方单位
+				if ((dx == 1 && dy == 0) || (dx == 0 && dy == 1)) {
+
+					BasicCommands.playUnitAnimation(out, gameState.selectedUnit, UnitAnimationType.attack);
+					BasicCommands.playUnitAnimation(out, aiAvatar, UnitAnimationType.hit);
+
+					// Reduce enemy health by 2
+					// 敌方扣除2点生命值
+					int newHealth = Math.max(0, gameState.aiPlayer.getHealth() - 2);
+					gameState.aiPlayer.setHealth(newHealth);
+
+					// Update enemy health display
+					// 更新敌方血量显示
+					BasicCommands.setPlayer2Health(out, gameState.aiPlayer);
+					BasicCommands.setUnitHealth(out, aiAvatar, gameState.aiPlayer.getHealth());
+					// Remove enemy unit if health is zero or below
+                    // 如果敌方血量小于等于0，则移除敌方单位
+					clearAdjacentHighlights(out, gameState, gameState.selectedUnit);
+					gameState.selectedUnit = null;
+
+					if (gameState.aiPlayer.getHealth() <= 0) {
+						BasicCommands.deleteUnit(out, aiAvatar);
+						gameState.aiAvatar = null;
+						BasicCommands.addPlayer1Notification(
+								out,
+								"Enemy defeated - You win!",
+								2
+						);
+					} else {
+						BasicCommands.addPlayer1Notification(
+								out,
+								"Attack triggered on enemy at (" + tilex + ", " + tiley + ")",
+								2
+						);
+					}
+				}
+
+				} else {
+
+					BasicCommands.addPlayer1Notification(
+							out,
+							"Invalid attack: enemy is not adjacent.",
+							2
+					);
+				}
+
+			} else {
+
+				BasicCommands.addPlayer1Notification(
+						out,
+						"You clicked the enemy unit at (" + tilex + ", " + tiley + ")",
+						2
+				);
+			}
+		}
 
 		} else {
 
